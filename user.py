@@ -73,3 +73,13 @@ def delete_user(user_id:int):
         raise HTTPException(status_code="400", detail="User is not here")
     deleted_user = users.pop(user_id)
     return {"message":"user has ben deleted", "deleted_user":deleted_user}
+
+@app.get("/users/search/")
+def search_by_name(name:str):
+    if not name:
+        return {"message":"Name parameter is required"}
+    for user in users.values():
+        if user["name"] == name:
+            return user
+    
+    raise HTTPException(status_code="400", detail="User is not here")
